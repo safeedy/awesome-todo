@@ -1,6 +1,6 @@
 <template>
     <q-card>
-      <modal-header>Add Task</modal-header>
+      <modal-header>Edit Task</modal-header>
 
       <q-form
         @submit="onSubmit"
@@ -18,18 +18,14 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
+    props: ['task', 'id'],
     data() {
       return {
-        taskToSubmit: {
-          name: '',
-          completed: false,
-          dueDate: '',
-          dueTime: ''
-        }
+        taskToSubmit: {}
       }
     },
     methods: {
-      ...mapActions('taskStore', ['addTask']),
+      ...mapActions('taskStore', ['updateTask']),
       onSubmit() {
         this.$refs.modalTaskName.$refs.name.validate()
         if(!this.$refs.modalTaskName.$refs.name.hasError) {
@@ -37,7 +33,10 @@ export default {
         }
       },
       submitTask() {
-        this.addTask(this.taskToSubmit)
+        this.updateTask({
+          id: this.id,
+          updates: this.taskToSubmit
+        })
         this.$emit('close')
       }
     },
@@ -47,6 +46,10 @@ export default {
       'modal-due-date' : require('components/Tasks/Modals/Shared/ModalDueDate').default,
       'modal-due-time' : require('components/Tasks/Modals/Shared/ModalDueTime').default,
       'modal-buttons' : require('components/Tasks/Modals/Shared/ModalButtons').default
+    },
+    mounted() {
+      // this.taskToSubmit = Object.assign({}, this.task)
+      this.taskToSubmit = {...this.task}
     }
 }
 </script>
