@@ -58,6 +58,26 @@ const actions = {
 const getters =  {
     getTasks: (state) => {
         return state.tasks
+    },
+    getTasksTodo: (state) => {
+        let tasks = {}
+        Object.keys(state.tasks).forEach(key => {
+            let task = state.tasks[key]
+            if(!task.completed) {
+                tasks[key] = task
+            }
+        });
+        return tasks
+    },
+    getTasksCompleted: (state) => {
+        let tasks = {}
+        Object.keys(state.tasks).forEach(key => {
+            let task = state.tasks[key]
+            if(task.completed) {
+                tasks[key] = task
+            }
+        });
+        return tasks
     }
 }
 

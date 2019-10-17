@@ -1,10 +1,10 @@
 <template>
   <q-page class="q-ma-md">
     <q-list bordered separator
-    v-show="Object.keys(getTasks).length > 0"
+    v-show="Object.keys(getTasksTodo).length > 0"
     >
       <task 
-        v-for="(task, key) in getTasks"
+        v-for="(task, key) in getTasksTodo"
         :key="key"
         :task="task"
         :id="key"></task>
@@ -36,7 +36,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('taskStore', ['getTasks'])
+    ...mapGetters('taskStore', ['getTasksTodo'])
   },
   components: {
     'task' : require('components/Tasks/Task.vue').default,
