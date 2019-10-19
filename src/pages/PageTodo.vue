@@ -1,10 +1,15 @@
 <template>
   <q-page class="q-ma-md">
-    <task-todo :tasksTodo="getTasksTodo"/>
+    <no-task
+     v-if="Object.keys(getTasksTodo).length == 0"></no-task>
+    <task-todo :tasksTodo="getTasksTodo"
+    v-else/>
 
-    <hr/>
 
-    <task-completed :tasksCompleted="getTasksCompleted"/>
+    <task-completed :tasksCompleted="getTasksCompleted"
+    v-show="Object.keys(getTasksCompleted).length > 0"
+    class="q-mt-lg"
+    />
 
     <div class="absolute-bottom text-center q-mb-lg">
       <q-btn
@@ -37,8 +42,14 @@ export default {
   components: {
     'add-task' : require('components/Tasks/Modals/AddTask.vue').default,
     'task-todo' : require('components/Tasks/TaskTodo.vue').default,
-    'task-completed' : require('components/Tasks/TaskCompleted.vue').default
+    'task-completed' : require('components/Tasks/TaskCompleted.vue').default,
+    'no-task' : require('components/Tasks/NoTask.vue').default
 
+  },
+  mounted() {
+    this.$root.$on('showAddTask', () => {
+      this.showAddTask = true
+    })
   }
 }
 </script>

@@ -1,4 +1,6 @@
 <template>
+<div>
+    <list-header bgColor="bg-green-4">Task Completed</list-header>
     <q-list bordered separator
     v-show="Object.keys(tasksCompleted).length > 0"
     >
@@ -8,13 +10,15 @@
         :task="task"
         :id="key"></task>
     </q-list>
+</div>
 </template>
 
 <script>
 export default {
     props: ['tasksCompleted'],
     components: {
-        'task': require('components/Tasks/Task.vue').default
+        'task': require('components/Tasks/Task.vue').default,
+        'list-header': require('components/Shared/ListHeader.vue').default
     }
 }
 </script>
