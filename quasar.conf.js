@@ -44,7 +44,8 @@ module.exports = function (ctx) {
 
       components: [],
       directives: [
-        'ClosePopup'
+        'ClosePopup',
+        'TouchHold'
       ],
 
       // Quasar plugins

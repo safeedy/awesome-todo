@@ -1,5 +1,6 @@
 <template>
     <q-item
+        v-touch-hold:600.mouse="showEditTaskModal"
         @click="updateTask({ id: id, updates: { completed: !task.completed } })"
         :class="task.completed ? 'bg-green-1 ' : 'bg-orange-1'"
         clickable
@@ -75,6 +76,9 @@ export default {
                 console.log(this.myData)
                 this.deleteTask(id)
             })
+        },
+        showEditTaskModal() {
+          this.showEditTask = true
         }
     },
     components: {
