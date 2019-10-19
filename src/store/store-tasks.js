@@ -21,7 +21,8 @@ const state = {
             dueDate: '2019/05/14',
             dueTime: '16:50'
         },
-    }
+    },
+    search: ''
 }
 
 const mutations =  {
@@ -35,6 +36,9 @@ const mutations =  {
     },
     addTaskMutation(state, payload) {
         Vue.set(state.tasks, payload.id, payload.task)
+    },
+    setSearchMutation(state, value) {
+        state.search = value
     }
 }
 
@@ -52,6 +56,9 @@ const actions = {
             task
         }
         commit('addTaskMutation', payload)
+    },
+    setSearch({ commit }, value) {
+        commit('setSearchMutation', value)
     }
 }
 
@@ -59,25 +66,42 @@ const getters =  {
     getTasks: (state) => {
         return state.tasks
     },
-    getTasksTodo: (state) => {
+    getTasksTodo: (state, getters) => {
+        let tasksFiltered = getters.getTasksFiltered
         let tasks = {}
-        Object.keys(state.tasks).forEach(key => {
-            let task = state.tasks[key]
+        Object.keys(tasksFiltered).forEach(key => {
+            let task = tasksFiltered[key]
             if(!task.completed) {
                 tasks[key] = task
             }
         });
         return tasks
     },
-    getTasksCompleted: (state) => {
+    getTasksCompleted: (state, getters) => {
+        let tasksFiltered = getters.getTasksFiltered
         let tasks = {}
-        Object.keys(state.tasks).forEach(key => {
-            let task = state.tasks[key]
+        Object.keys(tasksFiltered).forEach(key => {
+            let task = tasksFiltered[key]
             if(task.completed) {
                 tasks[key] = task
             }
         });
         return tasks
+    },
+    getTasksFiltered: (state) => {
+        let tasks = {}
+        if(!state.search) {
+            return state.tasks
+        }
+        else {
+            Object.keys(state.tasks).forEach(key => {
+                let task = state.tasks[key]
+                if(task.name.toLowerCase().includes(state.search.toLowerCase())) {
+                    tasks[key] = task
+                }
+            });
+            return tasks
+        }
     }
 }
 

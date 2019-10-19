@@ -1,5 +1,5 @@
 <template>
-    <q-banner class="bg-grey-3">
+    <q-banner v-if="search.length == 0" class="bg-grey-3">
       <template v-slot:avatar>
         <q-icon name="check " color="primary" />
       </template>
@@ -10,7 +10,10 @@
     </q-banner>
 </template>
 <script>
+import { mapState} from "vuex"
 export default {
-    
+    computed: {
+      ...mapState('taskStore', ['search'])
+    }
 }
 </script>
