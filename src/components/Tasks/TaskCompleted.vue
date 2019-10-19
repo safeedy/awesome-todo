@@ -1,4 +1,9 @@
 <template>
+<transition
+  appear
+  enter-active-class="animated zoomIn"
+  leave-active-class="animated zoomOut"
+>
 <div>
     <list-header bgColor="bg-green-4">Task Completed</list-header>
     <q-list bordered separator
@@ -11,6 +16,7 @@
         :id="key"></task>
     </q-list>
 </div>
+</transition>
 </template>
 
 <script>

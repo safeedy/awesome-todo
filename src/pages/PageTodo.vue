@@ -8,16 +8,18 @@
 
     <p v-if="Object.keys(getTasksFiltered).length == 0">No search results</p>
 
-    <no-task
-     v-if="Object.keys(getTasksTodo).length == 0"></no-task>
-    <task-todo :tasksTodo="getTasksTodo"
-    v-else/>
+    <div class="relative-position">
+      <no-task
+      v-if="Object.keys(getTasksTodo).length == 0"></no-task>
+      <task-todo :tasksTodo="getTasksTodo"
+      v-else/>
 
 
-    <task-completed :tasksCompleted="getTasksCompleted"
-    v-show="Object.keys(getTasksCompleted).length > 0"
-    class="q-mt-lg"
-    />
+      <task-completed :tasksCompleted="getTasksCompleted"
+      v-show="Object.keys(getTasksCompleted).length > 0"
+      class="q-mt-lg"
+      />
+    </div>
 
     <div class="absolute-bottom text-center q-mb-lg">
       <q-btn
