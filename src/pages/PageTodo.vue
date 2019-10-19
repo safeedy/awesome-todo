@@ -2,6 +2,8 @@
   <q-page class="q-ma-md">
     <div class="row q-mb-lg">
       <search/>
+
+      <sort/>
     </div>
 
     <p v-if="Object.keys(getTasksFiltered).length == 0">No search results</p>
@@ -50,7 +52,8 @@ export default {
     'task-todo' : require('components/Tasks/TaskTodo.vue').default,
     'task-completed' : require('components/Tasks/TaskCompleted.vue').default,
     'no-task' : require('components/Tasks/NoTask.vue').default,
-    'search' : require('components/Tasks/Tools/Search.vue').default
+    'search' : require('components/Tasks/Tools/Search.vue').default,
+    'sort' : require('components/Tasks/Tools/Sort.vue').default
 
   },
   mounted() {

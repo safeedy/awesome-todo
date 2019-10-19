@@ -22,7 +22,8 @@ const state = {
             dueTime: '16:50'
         },
     },
-    search: ''
+    search: '',
+    sort: 'dueDate'
 }
 
 const mutations =  {
@@ -39,6 +40,9 @@ const mutations =  {
     },
     setSearchMutation(state, value) {
         state.search = value
+    },
+    setSortByMutation(state, value) {
+        state.sort = value
     }
 }
 
@@ -59,6 +63,9 @@ const actions = {
     },
     setSearch({ commit }, value) {
         commit('setSearchMutation', value)
+    },
+    setSortBy({ commit }, value) {
+        commit('setSortByMutation', value)
     }
 }
 
@@ -88,20 +95,37 @@ const getters =  {
         });
         return tasks
     },
-    getTasksFiltered: (state) => {
+    getTasksFiltered: (state, getters) => {
+        let tasksSorted = getters.getTasksSorted
         let tasks = {}
         if(!state.search) {
-            return state.tasks
+            return tasksSorted
         }
         else {
-            Object.keys(state.tasks).forEach(key => {
-                let task = state.tasks[key]
+            Object.keys(tasksSorted).forEach(key => {
+                let task = tasksSorted[key]
                 if(task.name.toLowerCase().includes(state.search.toLowerCase())) {
                     tasks[key] = task
                 }
             });
             return tasks
         }
+    },
+    getTasksSorted: (state) => {
+        let tasksSorted = {},
+        keysOrdered = Object.keys(state.tasks)
+    
+        keysOrdered.sort((a,b) => {
+            let taskAProp = state.tasks[a][state.sort].toLowerCase(),
+                taskBProp = state.tasks[b][state.sort].toLowerCase()
+            if(taskAProp > taskBProp) return 1
+            else if(taskAProp < taskBProp) return -1
+            else return 0
+        })
+        keysOrdered.forEach(key => {
+            tasksSorted[key] = state.tasks[key]
+        })
+        return tasksSorted
     }
 }
 
