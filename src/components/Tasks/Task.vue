@@ -21,7 +21,7 @@
               <q-icon name="event" size="24px" class="q-mr-xs"/>
             </div>
             <div class="column">
-              <q-item-label>{{ task.dueDate }}</q-item-label>
+              <q-item-label>{{ task.dueDate | niceDate }}</q-item-label>
               <q-item-label>
                 <small>{{ task.dueTime }}</small>
               </q-item-label>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { date } from 'quasar'
 import { mapActions } from 'vuex'
 export default {
     props: ['task', 'id'],
@@ -83,6 +84,11 @@ export default {
     },
     components: {
       'edit-task': require('components/Tasks/Modals/EditTask.vue').default
+    },
+    filters: {
+      niceDate(value) {
+          return date.formatDate(value, 'MMM D')
+      }
     }
 }
 </script>
