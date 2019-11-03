@@ -26,7 +26,7 @@
             <div class="column">
               <q-item-label>{{ task.dueDate | niceDate }}</q-item-label>
               <q-item-label>
-                <small>{{ task.dueTime }}</small>
+                <small>{{ taskDueTime }}</small>
               </q-item-label>
             </div>
           </div>
@@ -59,7 +59,7 @@
 
 <script>
 import { date } from 'quasar'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
     props: ['task', 'id'],
     data() {
@@ -69,7 +69,14 @@ export default {
         }
     },
     computed: {
-      ...mapState('taskStore', ['search'])
+      ...mapState('taskStore', ['search']),
+      ...mapGetters('settingsStore', ['getSettings']),
+      taskDueTime() {
+        if(this.getSettings.show12HourTimeFormat) {
+          return date.formatDate(this.task.dueDate+' '+this.task.dueTime, 'h:mm A')
+        }
+        return this.task.dueTime
+      }
     },
     methods: {
         ...mapActions('taskStore', ['updateTask', 'deleteTask']),

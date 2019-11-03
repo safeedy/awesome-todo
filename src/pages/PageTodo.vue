@@ -1,6 +1,7 @@
 <template>
-  <q-page class="q-ma-md">
-    <div class="row q-mb-lg">
+  <q-page>
+    <div class="q-pa-md absolute full-width full-height column">
+      <div class="row q-mb-lg">
       <search/>
 
       <sort/>
@@ -8,7 +9,7 @@
 
     <p v-if="Object.keys(getTasksFiltered).length == 0">No search results</p>
 
-    <div class="relative-position">
+    <q-scroll-area class="q-scroll-area-tasks">
       <no-task
       v-if="Object.keys(getTasksTodo).length == 0"></no-task>
       <task-todo :tasksTodo="getTasksTodo"
@@ -17,11 +18,11 @@
 
       <task-completed :tasksCompleted="getTasksCompleted"
       v-show="Object.keys(getTasksCompleted).length > 0"
-      class="q-mt-lg"
+      class="q-mt-lg q-mb-xl"
       />
-    </div>
+    </q-scroll-area>
 
-    <div class="absolute-bottom text-center q-mb-lg">
+    <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
       <q-btn
         round
         dense
@@ -29,7 +30,9 @@
         size="24px"
         icon="add"
         @click="showAddTask = true"
+        class="all-pointer-events"
       />
+    </div>
     </div>
 
     <q-dialog v-model="showAddTask">
@@ -66,6 +69,9 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-
+<style>
+  .q-scroll-area-tasks {
+    display: flex;
+    flex-grow: 1;
+  }
 </style>
