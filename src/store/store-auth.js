@@ -13,14 +13,15 @@ const mutations =  {
 }
 
 const actions = {
-    handleAuthStateChangeAction({ commit }) {
-        Loading.hide()
+    handleAuthStateChangeAction({ commit, dispatch }) {
         console.log('handleAuthStateChangeAction fired')
         firebaseAuth.onAuthStateChanged(user => {
+            Loading.hide()
             if (user) {
                 commit('setLoggedInMutation', true)
                 LocalStorage.set('loggedIn', true)
                 this.$router.push('/')
+                dispatch('taskStore/fbReadData', null, { root: true})
             }
             else {
                 commit('setLoggedInMutation', false)
