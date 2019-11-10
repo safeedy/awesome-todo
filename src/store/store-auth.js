@@ -1,4 +1,5 @@
 import { firebaseAuth } from 'boot/firebase'
+import { LocalStorage } from 'quasar'
 
 const state = {
     loggedIn: false
@@ -16,10 +17,12 @@ const actions = {
         firebaseAuth.onAuthStateChanged(user => {
             if (user) {
                 commit('setLoggedInMutation', true)
+                LocalStorage.set('loggedIn', true)
                 this.$router.push('/')
             }
             else {
                 commit('setLoggedInMutation', false)
+                LocalStorage.set('loggedIn', false)
                 this.$router.replace('/auth')
             }
           });
