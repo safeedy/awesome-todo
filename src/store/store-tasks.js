@@ -1,5 +1,6 @@
 import { uid } from 'quasar'
 import Vue from 'vue'
+import { firebaseDb, firebaseAuth } from 'boot/firebase'
 
 const state = {
     tasks: {
@@ -69,6 +70,8 @@ const actions = {
     },
     fbReadData({ commit }) {
         console.log("start reading data from firebase")
+        let userId = firebaseAuth.currentUser.uid
+        let userTasks = firebaseDb.ref('tasks/'+userId)
     }
 }
 
