@@ -16,10 +16,20 @@
         </q-toolbar-title>
 
         <q-btn 
+        v-if="!loggedIn"
         to="/auth"
         flat
         icon-right="account_circle"
         label="Log in"
+        class="absolute-right"
+        />
+
+        <q-btn 
+        v-else
+        @click="logoutUserAction"
+        flat
+        icon-right="account_circle"
+        label="Log out"
         class="absolute-right"
         />
 
@@ -69,6 +79,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'MyLayout',
 
@@ -88,6 +99,12 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapState('authStore', ['loggedIn'])
+  },
+  methods: {
+    ...mapActions('authStore', ['logoutUserAction'])
   }
 }
 </script>
