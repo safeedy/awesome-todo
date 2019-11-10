@@ -1,5 +1,5 @@
 import { firebaseAuth } from 'boot/firebase'
-import { LocalStorage } from 'quasar'
+import { LocalStorage, Loading } from 'quasar'
 import showErrorMessage from 'src/functions/function-show-error-message'
 
 const state = {
@@ -14,6 +14,7 @@ const mutations =  {
 
 const actions = {
     handleAuthStateChangeAction({ commit }) {
+        Loading.hide()
         console.log('handleAuthStateChangeAction fired')
         firebaseAuth.onAuthStateChanged(user => {
             if (user) {
@@ -40,6 +41,7 @@ const actions = {
             })
     },
     loginUserAction({}, payload) {
+        Loading.show()
         firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password)
             .then(response => {
                 console.log('response ',  response)
