@@ -13,12 +13,14 @@ const mutations =  {
 const actions = {
     handleAuthStateChangeAction({ commit }) {
         console.log('handleAuthStateChangeAction fired')
-        firebaseAuth.onAuthStateChanged(function(user) {
+        firebaseAuth.onAuthStateChanged(user => {
             if (user) {
                 commit('setLoggedInMutation', true)
+                this.$router.push('/')
             }
             else {
                 commit('setLoggedInMutation', false)
+                this.$router.replace('/auth')
             }
           });
     },
