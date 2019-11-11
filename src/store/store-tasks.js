@@ -24,7 +24,7 @@ const state = {
         } */
     },
     search: '',
-    sort: 'dueDate'
+    sort: 'name'
 }
 
 const mutations =  {
@@ -72,6 +72,34 @@ const actions = {
         console.log("start reading data from firebase")
         let userId = firebaseAuth.currentUser.uid
         let userTasks = firebaseDb.ref('tasks/'+userId)
+
+        // child added : fired on add and first connection to firebase
+        userTasks.on('child_added', snapshot => {
+            let task = snapshot.val()
+            console.log(task)
+            let payload = {
+                id: snapshot.key,
+                task
+            }
+            commit('addTaskMutation', payload)
+        })
+
+        // child changed
+        userTasks.on('child_changed', snapshot => {
+            let task = snapshot.val()
+            console.log(task)
+            let payload = {
+                id: snapshot.key,
+                updates: task
+            }
+            commit('updateTaskMutation', payload)
+        })
+
+        // child removed
+        userTasks.on('child_removed', snapshot => {
+            let taskId = snapshot.key
+            commit('deleteTaskMutation', taskId)
+        })
     }
 }
 
